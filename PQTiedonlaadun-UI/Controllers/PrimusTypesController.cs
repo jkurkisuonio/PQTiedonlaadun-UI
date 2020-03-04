@@ -55,7 +55,8 @@ namespace PQTiedonlaadun_UI.Controllers
         [HttpPut("{id}")] 
         //public void Put(int id, [FromBody]string value)
         public void Put(int id, [FromBody]AlertypeRest v)
-        {
+        {       
+
             var q = (from b in _primusAlertContext.AlertTypes where b.Id == id select b).FirstOrDefault();
             q.Description = v.Description;
             q.AlertMsgSubject = v.AlertMsgSubject;

@@ -7,6 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { TextareaAutosize } from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
 
 
 
@@ -39,7 +41,11 @@ export default function EditAlertType(props) {
         handleClose();
     }
 
+    const [checked, setChecked] = React.useState(false);
 
+    const toggleChecked = () => {
+        setChecked(prev => !prev);
+      };
  
 
     return (
@@ -111,15 +117,12 @@ export default function EditAlertType(props) {
                 onChange = {e => handleInputChange(e)}
                 fullWidth
             />
-            <TextField     
-                margin="dense"
-                name="isInUse"
-                label="In use?"
-                value={alertType.isInUse}
-                type="text"
-                onChange = {e => handleInputChange(e)}
-                fullWidth
-            />
+  
+            
+            <Switch id="isInUse" checked={alertType.isInUse} inputProps={{ 'aria-label': 'In use?' }} onChange={toggleChecked} />
+
+
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
