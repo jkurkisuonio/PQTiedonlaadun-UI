@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import authService from './api-authorization/AuthorizeService';
-import ReactTable from 'react-table-v6'  ;
-import 'react-table-v6/react-table.css';
+import ReactTable from 'react-table'  ;
+import 'react-table/react-table.css';
+import EditAlertType from './EditAlertType';
 
 
 export class AlertType extends Component  {
@@ -19,6 +20,24 @@ export class AlertType extends Component  {
 
 
 render(){
+
+
+    const updateAlertType = (alertType, link) => {
+        fetch(link, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(alertType)
+        })
+        .then( res => this.populateAlertTypes())
+        .catch(err => console.error(err))
+      
+    }
+
+
+
+
     const columns = [{
         Header: 'Name',
         accessor: 'name' // String-based value accessors!
@@ -46,13 +65,20 @@ render(){
     {
         Header: 'In use?',
         accessor: 'isInUse' // String-based value accessors!
-    }
+    },
+    {
+        sortable: false,
+        filterable: false,
+        width: 100,
+        accessor: 'link',
+        Cell: row => <EditAlertType updateAlertType={updateAlertType} alertType={row.original} />
+    },
     ];    
 
 return (
     <div>
         <h1>Alert types:</h1>
-        <ReactTable data={this.props.alerttypes} columns={columns} sortable={true} defaultPageSize={10} />
+        <ReactTable data={this.state.alerttypes} columns={columns} sortable={true} defaultPageSize={10} />
     </div>
     )
 }
