@@ -12,13 +12,12 @@ import Switch from '@material-ui/core/Switch';
 
 
 
-export default function EditAlertType(props) {
+export default function AddAlertType(props) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
         console.log(props.alertType);
-      setAlertType({ name: props.alertType.name, description: props.alertType.description, queryString: props.alertType.queryString, 
-        queryName: props.alertType.queryName, alertMsgText: props.alertType.alertMsgText, alertMsgSubject: props.alertType.alertMsgSubject, isInUse: props.alertType.isInUse})
+      //setAlertType({ name: props.alertType.name, description: props.alertType.description, queryString: props.alertType.queryString,  queryName: props.alertType.queryName, alertMsgText: props.alertType.alertMsgText, alertMsgSubject: props.alertType.alertMsgSubject, isInUse: props.alertType.isInUse})
       setOpen(true);
     };
   
@@ -37,8 +36,8 @@ export default function EditAlertType(props) {
     }
     
 
-    const updateAlertType = () => {
-        props.updateAlertType(alertType, props.alertType.link);
+    const saveAlertType = () => {
+        props.saveAlertType(alertType);
         handleClose();
     }
 
@@ -55,10 +54,10 @@ export default function EditAlertType(props) {
     return (
     <div>
       <Button  color="primary" onClick={handleClickOpen}>
-       Edit
+       Add
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"   maxWidth="lg">
-        <DialogTitle id="form-dialog-title">Edit AlertType</DialogTitle>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="lg">
+        <DialogTitle id="form-dialog-title">Add AlertType</DialogTitle>
         <DialogContent >
         <DialogContentText>
       
@@ -132,7 +131,7 @@ export default function EditAlertType(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={updateAlertType} color="primary">
+          <Button onClick={saveAlertType} color="primary">
             Save
           </Button>
         </DialogActions>

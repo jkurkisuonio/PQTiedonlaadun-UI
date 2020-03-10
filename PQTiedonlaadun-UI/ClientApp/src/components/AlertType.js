@@ -3,6 +3,7 @@ import authService from './api-authorization/AuthorizeService';
 import ReactTable from 'react-table'  ;
 import 'react-table/react-table.css';
 import EditAlertType from './EditAlertType';
+import AddAlertType from './AddAlertType';
 
 
 export class AlertType extends Component  {
@@ -35,7 +36,18 @@ render(){
       
     }
 
-
+    const saveAlertType = (alertType) => {
+        fetch('api/primustypes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(alertType)
+        })
+        .then( res => this.populateAlertTypes())
+        .catch(err => console.error(err))
+      
+    }
 
 
     const columns = [{
@@ -78,6 +90,7 @@ render(){
 return (
     <div>
         <h1>Alert types:</h1>
+        <AddAlertType saveAlertType={saveAlertType} />
         <ReactTable data={this.state.alerttypes} columns={columns} sortable={true} defaultPageSize={10} />
     </div>
     )

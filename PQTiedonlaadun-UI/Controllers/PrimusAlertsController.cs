@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PQ_TiedonLaatuService.Data;
+using PQTiedonlaadun_UI.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,11 +13,36 @@ namespace PQTiedonlaadun_UI.Controllers
     [Route("api/[controller]")]
     public class PrimusAlertsController : Controller
     {
+        private readonly PrimusAlertContext _primusAlertContext;
+
+        public PrimusAlertsController(PrimusAlertContext primusAlertContext)
+        {
+            _primusAlertContext = primusAlertContext ?? throw new ArgumentNullException(nameof(primusAlertContext));
+        }
+
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<Alert> Get()
         {
-            return new string[] { "value1", "value2" };
+            List<IGrouping<string, PQ_TiedonLaatuService.Models.Database.PrimusAlert>> q = (from a in _primusAlertContext.PrimusAlerts select a).OrderBy(x => x.CardNumber).GroupBy(y => y.CardNumber).ToList();
+            var responses = new List<Alert>();
+            foreach(var z in q)
+            {
+                DateTime firstDate = DateTime.MaxValue; DateTime lastDate = DateTime.MinValue;
+                var CardNumber = z.Key; String name = String.Empty; String receiver = String.Empty;
+                foreach (var a in z)
+                {
+                    firstDate = firstDate > a.SentDate ? a.SentDate : firstDate;
+                    lastDate  = lastDate  < a.SentDate ? a.SentDate : lastDate;
+                    name = a.AlertType.Name;
+                    receiver = a.AlertReceiver.Email;
+                }
+                double days = (lastDate.Date - firstDate.Date).TotalDays;
+                int daysInt = (int)days;
+                responses.Add(new Alert { Days = daysInt, FirstDate = firstDate, LastDate = lastDate, CardNumber = CardNumber, AlertName = name, Receiver = receiver });
+            }
+
+            return responses;
         }
 
         // GET api/<controller>/5

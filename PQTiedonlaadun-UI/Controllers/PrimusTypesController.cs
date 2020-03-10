@@ -33,22 +33,55 @@ namespace PQTiedonlaadun_UI.Controllers
         [HttpGet("{id}")]
         public List<AlertypeRest> Get(int id)
         {
+            List<AlertypeRest> responses = ReturnAlertTypes();
+
+            return responses;
+        }
+
+        private List<AlertypeRest> ReturnAlertTypes()
+        {
             List<PQ_TiedonLaatuService.Models.Database.AlertType> q = (from a in _primusAlertContext.AlertTypes select a).ToList();
             var responses = new List<AlertypeRest>();
             foreach (var r in q)
             {
-                responses.Add(new AlertypeRest { AlertMsgSubject = r.AlertMsgSubject, AlertMsgText = r.AlertMsgText, CardNumber = r.CardNumber,
-                    Description = r.Description, Id = r.Id, IsInUse = r.IsInUse, Name = r.Name, PrimusAlerts = r.PrimusAlerts, QueryName = r.QueryName,
-                    QueryString = r.QueryString, link = "api/primustypes/" + r.Id });
+                responses.Add(new AlertypeRest
+                {
+                    AlertMsgSubject = r.AlertMsgSubject,
+                    AlertMsgText = r.AlertMsgText,
+                    CardNumber = r.CardNumber,
+                    Description = r.Description,
+                    Id = r.Id,
+                    IsInUse = r.IsInUse,
+                    Name = r.Name,
+                    PrimusAlerts = r.PrimusAlerts,
+                    QueryName = r.QueryName,
+                    QueryString = r.QueryString,
+                    link = "api/primustypes/" + r.Id
+                });
             }
-           
+
             return responses;
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public int Post([FromBody]AlertypeRest v)
         {
+            AlertypeRest newAlertypeRest = new AlertypeRest
+            {
+                AlertMsgSubject = v.AlertMsgSubject,
+                AlertMsgText = v.AlertMsgText,
+                CardNumber = v.CardNumber,
+                Description = v.Description,
+                IsInUse = v.IsInUse,
+                Name = v.Name,
+                QueryName = v.QueryName,
+                QueryString = v.QueryString
+            };
+            _primusAlertContext.AlertTypes.Add(newAlertypeRest);
+            int q = _primusAlertContext.SaveChanges();
+
+            return q;
         }
 
         // PUT api/<controller>/5
