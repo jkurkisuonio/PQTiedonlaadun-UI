@@ -65,8 +65,15 @@ namespace PQTiedonlaadun_UI.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public int Post([FromBody]AlertypeRest v)
+        public int Post([FromBody]AlertType v)
         {
+            var errors = ModelState
+            .Where(a => a.Value.Errors.Count > 0)
+            .SelectMany(x => x.Value.Errors)
+            .ToList();
+
+
+
             AlertypeRest newAlertypeRest = new AlertypeRest
             {
                 AlertMsgSubject = v.AlertMsgSubject,

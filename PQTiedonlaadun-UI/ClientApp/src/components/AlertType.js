@@ -37,6 +37,8 @@ render(){
     }
 
     const saveAlertType = (alertType) => {
+        alertType.Id = 0;
+        alertType.CardNumber = "";
         fetch('api/primustypes', {
             method: 'POST',
             headers: {

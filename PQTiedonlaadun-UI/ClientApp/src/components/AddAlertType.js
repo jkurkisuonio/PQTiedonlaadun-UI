@@ -26,7 +26,7 @@ export default function AddAlertType(props) {
     };
 
     const [alertType, setAlertType] = React.useState({
-            name: '', description: '', queryString: '', queryName : '', alertMsgText: '', alertMsgSubject: '', isInUse: ''
+            cardnumber: '',  name: '', description: '', queryString: '', queryName : '', alertMsgText: '', alertMsgSubject: '', isInUse: false
         }
     );
 
