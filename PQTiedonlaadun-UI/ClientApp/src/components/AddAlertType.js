@@ -30,9 +30,12 @@ export default function AddAlertType(props) {
         }
     );
 
+    const [msgTxt, setMsgTxt] = React.useState('');
+
      const handleInputChange = (event) => {
         console.log("Changed: " + event.target.name + " : " + event.target.value);
         setAlertType({...alertType, [event.target.name]: event.target.value })
+        setMsgTxt(event.target.value);
     }
     
 
@@ -49,6 +52,14 @@ export default function AddAlertType(props) {
         setChecked(prev => !prev);
         console.log("alertType.isInuse: " + alertType.isInUse);
       };
+ 
+    const appendTextMark = (name) => 
+    {
+      console.log(name);       
+       alertType.alertMsgText = alertType.alertMsgText + "%" + name + "%";
+       console.log(alertType.alertMsgText);
+       setMsgTxt(alertType.alertMsgText);
+    }   
  
 
     return (
@@ -106,11 +117,34 @@ export default function AddAlertType(props) {
                 placeholder="Alert Message"
                 name="alertMsgText"
                 label="Alert Message"
-                value={alertType.alertMsgText}
+                value={msgTxt}
                 type="text"
                 onChange = {e => handleInputChange(e)}
                 fullWidth
             />
+            <div class="container">
+              <div class="row">
+                <div class="col-2">            
+            <Button onClick={() => appendTextMark("DateTimeNow")}>DateTimeNow</Button>                        
+              </div>
+            <div class="col-2">
+            <Button onClick={() => appendTextMark("ReceiverEmail")}>ReceiverEmail</Button>                        
+          </div>
+          <div class="col-2">
+          <Button onClick={() => appendTextMark("AlertTypeName")}>AlertTypeName</Button>                        
+          </div>
+          <div class="col-2">            
+            <Button onClick={() => appendTextMark("StudentName")}>StudentName</Button>                        
+              </div>
+            <div class="col-2">
+            <Button onClick={() => appendTextMark("WilmaStudentUrl")}>WilmaStudentUrl</Button>                        
+          </div>
+          
+          </div>
+        </div>
+
+
+        
             <TextField     
                 margin="dense"
                 name="alertMsgSubject"
