@@ -24,7 +24,7 @@ namespace PQTiedonlaadun_UI.Controllers
         [HttpGet]
         public List<Alert> Get()
         {
-            List<IGrouping<string, PQ_TiedonLaatuService.Models.Database.PrimusAlert>> q = (from a in _primusAlertContext.PrimusAlerts select a).OrderBy(x => x.CardNumber).GroupBy(y => y.CardNumber).ToList();
+            List<IGrouping<string, PQ_TiedonLaatuService.Models.Database.PrimusAlert>> q = (from a in _primusAlertContext.PrimusAlerts select a).ToList().OrderBy(x => x.CardNumber).GroupBy(y => y.CardNumber).ToList();
             var responses = new List<Alert>();
             foreach(var z in q)
             {
@@ -34,8 +34,8 @@ namespace PQTiedonlaadun_UI.Controllers
                 {
                     firstDate = firstDate > a.SentDate ? a.SentDate : firstDate;
                     lastDate  = lastDate  < a.SentDate ? a.SentDate : lastDate;
-                    name = a.AlertType.Name;
-                    receiver = a.AlertReceiver.Email;
+                    name = _primusAlertContext.AlertTypes.Where(x => x.Id == a.AlertTypeId).FirstOrDefault().Name;
+                    receiver = _primusAlertContext.AlertReceivers.Where(x => x.Id ==  a.AlertReceiverId).FirstOrDefault().Email;
                 }
                 double days = (lastDate.Date - firstDate.Date).TotalDays;
                 int daysInt = (int)days;
