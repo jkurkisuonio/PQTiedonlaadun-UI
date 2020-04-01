@@ -15,10 +15,10 @@ import Switch from '@material-ui/core/Switch';
 export default function EditAlertType(props) {
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        console.log(props.alertType);
+    const handleClickOpen = () => {                
       setAlertType({ name: props.alertType.name, description: props.alertType.description, queryString: props.alertType.queryString, 
         queryName: props.alertType.queryName, alertMsgText: props.alertType.alertMsgText, alertMsgSubject: props.alertType.alertMsgSubject, isInUse: props.alertType.isInUse})
+        setMsgTxt(props.alertType.alertMsgText);
       setOpen(true);
     };
   
@@ -31,10 +31,14 @@ export default function EditAlertType(props) {
         }
     );
 
-     const handleInputChange = (event) => {
-        console.log("Changed: " + event.target.name + " : " + event.target.value);
-        setAlertType({...alertType, [event.target.name]: event.target.value })
-    }
+    const handleInputChange = (event) => {
+      console.log("Changed: " + event.target.name + " : " + event.target.value);
+      setAlertType({...alertType, [event.target.name]: event.target.value })
+      if (event.target.name === 'alertMsgText') {
+        
+        setMsgTxt(event.target.value);
+      }
+  }
     
 
     const updateAlertType = () => {
@@ -50,6 +54,16 @@ export default function EditAlertType(props) {
         setChecked(prev => !prev);
         console.log("alertType.isInuse: " + alertType.isInUse);
       };
+    
+      const [msgTxt, setMsgTxt] = React.useState(alertType.alertMsgText);
+
+      const appendTextMark = (name) => 
+      {
+        console.log(name);       
+         alertType.alertMsgText = alertType.alertMsgText + "%" + name + "%";
+         console.log(alertType.alertMsgText);
+         setMsgTxt(alertType.alertMsgText);
+      }   
  
 
     return (
@@ -107,11 +121,35 @@ export default function EditAlertType(props) {
                 placeholder="Alert Message"
                 name="alertMsgText"
                 label="Alert Message"
-                value={alertType.alertMsgText}
+                value={msgTxt}
                 type="text"
                 onChange = {e => handleInputChange(e)}
                 fullWidth
             />
+           <div class="container">
+              <div class="row">
+                <div class="col-2">            
+            <Button onClick={() => appendTextMark("DateTimeNow")}>DateTimeNow</Button>                        
+              </div>
+            <div class="col-2">
+            <Button onClick={() => appendTextMark("ReceiverEmail")}>ReceiverEmail</Button>                        
+          </div>
+          <div class="col-2">
+          <Button onClick={() => appendTextMark("AlertTypeName")}>AlertTypeName</Button>                        
+          </div>
+          <div class="col-2">            
+            <Button onClick={() => appendTextMark("StudentName")}>StudentName</Button>                        
+              </div>
+            <div class="col-2">
+            <Button onClick={() => appendTextMark("WilmaStudentUrl")}>WilmaStudentUrl</Button>                        
+          </div>
+          
+          </div>
+        </div>
+          
+          
+          
+          
             <TextField     
                 margin="dense"
                 name="alertMsgSubject"
