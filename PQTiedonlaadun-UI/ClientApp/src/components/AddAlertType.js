@@ -26,7 +26,7 @@ export default function AddAlertType(props) {
     };
 
     const [alertType, setAlertType] = React.useState({
-            cardnumber: '',  name: '', description: '', queryString: '', queryName : '', alertMsgText: '', alertMsgSubject: '', isInUse: false
+            cardnumber: '',  name: '', description: '', queryString: '', queryName : '',  msgHeader: '',  alertMsgText: '', msgSignature: '', alertMsgSubject: '', isInUse: false
         }
     );
 
@@ -114,14 +114,34 @@ export default function AddAlertType(props) {
             />
             <textarea    
                 rows="10" cols="140"                             
-                placeholder="Alert Message"
+                placeholder="Message Header"
+                name="msgHeader"
+                label="Message Header"
+                value={alertType.messageHeader}
+                type="text"
+                onChange = {e => handleInputChange(e)}
+                fullWidth />
+            <textarea    
+                rows="10" cols="140"                             
+                placeholder="Message Body"
                 name="alertMsgText"
-                label="Alert Message"
+                label="Message Body"
                 value={msgTxt}
                 type="text"
                 onChange = {e => handleInputChange(e)}
                 fullWidth
             />
+                <textarea    
+                rows="10" cols="140"                             
+                placeholder="Message Footer"
+                name="msgSignature"
+                label="Message Footer"
+                value={msgTxt}
+                type="text"
+                onChange = {e => handleInputChange(e)}
+                fullWidth
+            />
+
             <div class="container">
               <div class="row">
                 <div class="col-2">            

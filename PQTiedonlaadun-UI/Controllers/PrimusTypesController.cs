@@ -48,6 +48,8 @@ namespace PQTiedonlaadun_UI.Controllers
                 {
                     AlertMsgSubject = r.AlertMsgSubject,
                     AlertMsgText = r.AlertMsgText,
+                    AlertMsgHeader = r.AlertMsgHeader,
+                    AlertMsgSignature = r.AlertMsgSignature,
                     CardNumber = r.CardNumber,
                     Description = r.Description,
                     Id = r.Id,
@@ -78,6 +80,8 @@ namespace PQTiedonlaadun_UI.Controllers
             {
                 AlertMsgSubject = v.AlertMsgSubject,
                 AlertMsgText = v.AlertMsgText,
+                AlertMsgHeader = v.AlertMsgHeader,
+                AlertMsgSignature = v.AlertMsgSignature,
                 CardNumber = v.CardNumber,
                 Description = v.Description,
                 IsInUse = v.IsInUse,
@@ -101,6 +105,8 @@ namespace PQTiedonlaadun_UI.Controllers
             q.Description = v.Description;
             q.AlertMsgSubject = v.AlertMsgSubject;
             q.AlertMsgText = v.AlertMsgText;
+            q.AlertMsgHeader = v.AlertMsgHeader;
+            q.AlertMsgSignature = v.AlertMsgSignature;
             q.CardNumber = v.CardNumber;
             q.IsInUse = v.IsInUse;
             q.QueryName = v.QueryName;

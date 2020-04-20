@@ -9,6 +9,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import { TextareaAutosize } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import Switch from '@material-ui/core/Switch';
+import DragText from './DragText';
+import insertAtCaret from './InsertAtCaret';
+import $ from 'jquery';
 
 
 
@@ -16,8 +19,8 @@ export default function EditAlertType(props) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {                
-      setAlertType({ name: props.alertType.name, description: props.alertType.description, queryString: props.alertType.queryString, 
-        queryName: props.alertType.queryName, alertMsgText: props.alertType.alertMsgText, alertMsgSubject: props.alertType.alertMsgSubject, isInUse: props.alertType.isInUse})
+      setAlertType({ name: props.alertType.name, description: props.alertType.description, queryString: props.alertType.queryString, alertMsgHeader: props.alertType.alertMsgHeader,
+         alertMsgSignature: props.alertType.alertMsgSignature, queryName: props.alertType.queryName, alertMsgText: props.alertType.alertMsgText, alertMsgSubject: props.alertType.alertMsgSubject, isInUse: props.alertType.isInUse})
         setMsgTxt(props.alertType.alertMsgText);
       setOpen(true);
     };
@@ -27,7 +30,7 @@ export default function EditAlertType(props) {
     };
 
     const [alertType, setAlertType] = React.useState({
-            name: '', description: '', queryString: '', queryName : '', alertMsgText: '', alertMsgSubject: '', isInUse: ''
+            name: '', description: '', queryString: '', queryName : '', alertMsgText: '', alertMsgSubject: '', isInUse: '', alertMsgHeader: '', alertMsgSignature : ''
         }
     );
 
@@ -37,6 +40,13 @@ export default function EditAlertType(props) {
       if (event.target.name === 'alertMsgText') {
         
         setMsgTxt(event.target.value);
+      }
+      console.log("Event.target.name: " + event.target.name);
+      if (event.target.name === 'alertMsgSignature') {
+        setFooterTxt(event.target.value);
+      }
+      if (event.target.name === 'alertHeaderText') {
+        setHeaderTxt(event.target.value);
       }
   }
     
@@ -56,14 +66,47 @@ export default function EditAlertType(props) {
       };
     
       const [msgTxt, setMsgTxt] = React.useState(alertType.alertMsgText);
+      const [headerTxt, setHeaderTxt] = React.useState(alertType.alertMsgHeader);
+      const [footerTxt, setFooterTxt] = React.useState(alertType.alertMsgSignature);
 
       const appendTextMark = (name) => 
       {
         console.log(name);       
          alertType.alertMsgText = alertType.alertMsgText + "%" + name + "%";
+         
          console.log(alertType.alertMsgText);
          setMsgTxt(alertType.alertMsgText);
-      }   
+         
+
+         // Get the focused element:
+         var focused = $(':focus');
+         alert("Focused is: " + focused);
+         insertAtCaret("textareaid", name);
+      }  
+      
+      const appendTextElementToArea = (text,area) => 
+      {
+        console.log("TEXT: " + text);       
+        console.log("AREA:" + area);
+         text = "%" + text + "%";
+         var data = alertType;
+         data[area] = data[area] + text;
+         console.log("data[area] is " + data[area]);
+         console.log("Signautr is:" +data.alertMsgSignature);
+         setAlertType(data);
+         
+         if (area === 'alertMsgSignature') {
+          console.log("DEBUG: alerMsgSignature");
+          setFooterTxt(data.area);
+        }        
+        else if (area === 'alertMsgHeader')
+        {
+          setHeaderTxt(data.area);
+        }
+         
+      }  
+
+
  
 
     return (
@@ -118,6 +161,40 @@ export default function EditAlertType(props) {
             />
             <textarea    
                 rows="10" cols="140"                             
+                placeholder="Message Header"
+                name="alertMsgHeader"
+                label="Message Header"
+                value={alertType.alertMsgHeader}
+                type="text"
+                onChange = {e => handleInputChange(e)}
+                fullWidth />
+
+            <div class="container">
+              <div class="row">
+                <div class="col-2">            
+            <Button onClick={() => appendTextElementToArea("DateTimeNow", "alertMsgHeader")}>DateTimeNow</Button>                        
+              </div>
+            <div class="col-2">
+            <Button onClick={() => appendTextElementToArea("ReceiverEmail", "alertMsgHeader")}>ReceiverEmail</Button>                        
+          </div>
+          <div class="col-2">
+          <Button onClick={() => appendTextElementToArea("AlertTypeName", "alertMsgHeader")}>AlertTypeName</Button>                        
+          </div>
+          <div class="col-2">            
+            <Button onClick={() => appendTextElementToArea("StudentName", "alertMsgHeader")}>StudentName</Button>                        
+              </div>
+            <div class="col-2">
+            <Button onClick={() => appendTextElementToArea("WilmaStudentUrl", "alertMsgHeader")}>WilmaStudentUrl</Button>                        
+          </div>
+          
+          </div>
+        </div>
+
+
+
+
+            <textarea    
+                rows="10" cols="140"                             
                 placeholder="Alert Message"
                 name="alertMsgText"
                 label="Alert Message"
@@ -126,7 +203,8 @@ export default function EditAlertType(props) {
                 onChange = {e => handleInputChange(e)}
                 fullWidth
             />
-           <div class="container">
+
+          <div class="container">
               <div class="row">
                 <div class="col-2">            
             <Button onClick={() => appendTextMark("DateTimeNow")}>DateTimeNow</Button>                        
@@ -142,10 +220,48 @@ export default function EditAlertType(props) {
               </div>
             <div class="col-2">
             <Button onClick={() => appendTextMark("WilmaStudentUrl")}>WilmaStudentUrl</Button>                        
+          </div>          
+          </div>
+        </div>
+
+
+
+              <textarea    
+                rows="10" cols="140"                             
+                placeholder="Message Footer"
+                name="alertMsgSignature"
+                label="Message Footer"
+                id="textareaid"
+                value={alertType.alertMsgSignature}
+                type="text"
+                onChange = {e => handleInputChange(e)}
+                fullWidth
+            />
+                       <div class="container">
+              <div class="row">
+                <div class="col-2">            
+            <Button onClick={() => appendTextElementToArea("DateTimeNow", "alertMsgSignature")}>DateTimeNow</Button>                        
+              </div>
+            <div class="col-2">
+            <Button onClick={() => appendTextElementToArea("ReceiverEmail", "alertMsgSignature")}>ReceiverEmail</Button>                        
+          </div>
+          <div class="col-2">
+          <Button onClick={() => appendTextElementToArea("AlertTypeName", "alertMsgSignature")}>AlertTypeName</Button>                        
+          </div>
+          <div class="col-2">            
+            <Button onClick={() => appendTextElementToArea("StudentName", "alertMsgSignature")}>StudentName</Button>                        
+              </div>
+            <div class="col-2">
+            <Button onClick={() => appendTextElementToArea("WilmaStudentUrl", "alertMsgSignature")}>WilmaStudentUrl</Button>                        
           </div>
           
           </div>
         </div>
+
+
+          
+
+           
           
           
           

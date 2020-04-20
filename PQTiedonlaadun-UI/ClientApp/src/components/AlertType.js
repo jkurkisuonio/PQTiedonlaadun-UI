@@ -4,6 +4,7 @@ import ReactTable from 'react-table'  ;
 import 'react-table/react-table.css';
 import EditAlertType from './EditAlertType';
 import AddAlertType from './AddAlertType';
+import InsertAtCaret from './InsertAtCaret';
 
 
 export class AlertType extends Component  {
@@ -69,8 +70,16 @@ render(){
         accessor: 'queryName' // String-based value accessors!
     },
     {
-        Header: 'Alert Message',
+        Header: 'Message Header',
+        accessor: 'alertMsgHeader' // String-based value accessors!
+    },
+    {
+        Header: 'Message Body',
         accessor: 'alertMsgText' // String-based value accessors!
+    },
+    {
+        Header: 'Message Footer',
+        accessor: 'alertMsgSignature' // String-based value accessors!
     },
     {
         Header: 'Subject',
