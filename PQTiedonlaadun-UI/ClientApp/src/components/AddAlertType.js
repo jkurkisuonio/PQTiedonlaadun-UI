@@ -112,6 +112,17 @@ export default function AddAlertType(props) {
                 onChange = {e => handleInputChange(e)}
                 fullWidth
             />
+
+            <TextField     
+                margin="dense"
+                name="alertMsgSubject"
+                label="Subject"
+                value={alertType.alertMsgSubject}
+                type="text"
+                onChange = {e => handleInputChange(e)}
+                fullWidth
+            /> 
+
             <textarea    
                 rows="10" cols="140"                             
                 placeholder="Message Header"
@@ -165,15 +176,6 @@ export default function AddAlertType(props) {
 
 
         
-            <TextField     
-                margin="dense"
-                name="alertMsgSubject"
-                label="Subject"
-                value={alertType.alertMsgSubject}
-                type="text"
-                onChange = {e => handleInputChange(e)}
-                fullWidth
-            />
   
             
             <Switch id="isInUse" checked={alertType.isInUse}  inputProps={{ 'aria-label': 'In use?' }} onChange={toggleChecked} />
