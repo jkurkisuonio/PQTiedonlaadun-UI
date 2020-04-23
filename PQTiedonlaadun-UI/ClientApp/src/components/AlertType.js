@@ -5,6 +5,7 @@ import 'react-table/react-table.css';
 import EditAlertType from './EditAlertType';
 import AddAlertType from './AddAlertType';
 import InsertAtCaret from './InsertAtCaret';
+import Switch from '@material-ui/core/Switch';
 
 
 export class AlertType extends Component  {
@@ -70,6 +71,10 @@ render(){
         accessor: 'queryName' // String-based value accessors!
     },
     {
+        Header: 'Subject',
+        accessor: 'alertMsgSubject' // String-based value accessors!
+    },
+    {
         Header: 'Message Header',
         accessor: 'alertMsgHeader' // String-based value accessors!
     },
@@ -81,13 +86,16 @@ render(){
         Header: 'Message Footer',
         accessor: 'alertMsgSignature' // String-based value accessors!
     },
-    {
-        Header: 'Subject',
-        accessor: 'alertMsgSubject' // String-based value accessors!
-    },
+ 
     {
         Header: 'In use?',
-        accessor: 'isInUse' // String-based value accessors!
+        accessor: 'isInUse',
+        Cell: ({row, original}) => <Switch  
+        checked={original.isInUse}        
+        color="secondary"
+        name="checkedB"
+        inputProps={{ 'aria-label': 'primary checkbox' }}>            
+        </Switch>
     },
     {
         sortable: false,
