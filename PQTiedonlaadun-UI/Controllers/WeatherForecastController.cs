@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace PQTiedonlaadun_UI.Controllers
 {
-    [Authorize]
+   // [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -24,7 +25,7 @@ namespace PQTiedonlaadun_UI.Controllers
         {
             _logger = logger;
         }
-
+        [DisableCors]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

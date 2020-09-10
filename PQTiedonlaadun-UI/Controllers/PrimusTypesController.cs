@@ -13,7 +13,7 @@ using PQTiedonlaadun_UI.Models;
 namespace PQTiedonlaadun_UI.Controllers
 {
  
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class PrimusTypesController : Controller
     {

@@ -8,24 +8,27 @@ import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
 import {AlertType} from './components/AlertType';
-import {Alert} from './components/Alert';
-
+import { Alert } from './components/Alert';
+import { GraphData } from './components/GraphData';
 import './custom.css'
+import { withAuth } from './msal/MsalAuthProvider';
 
-export default class App extends Component {
-  static displayName = App.name;
+class RootApp extends Component {
+  // static displayName = App.name;
 
   render () {
     return (
       <Layout>
         <Route exact path='/' component={Home} />
         <Route path='/counter' component={Counter} />
-        <AuthorizeRoute path='/fetch-data' component={FetchData} />
-        <AuthorizeRoute path='/alert-types' component={AlertType} />
-        <AuthorizeRoute path='/alerts' component={Alert} />
+        <Route path='/fetch-data' component={FetchData} />
+        <Route path='/alert-types' component={AlertType} />
+            <Route path='/alerts' component={Alert} />
+            <Route exact path='/graph-data' component={GraphData} />
         
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
       </Layout>
     );
   }
 }
+export const App = withAuth(RootApp);

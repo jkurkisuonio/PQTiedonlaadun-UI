@@ -10,7 +10,7 @@ using PQTiedonlaadun_UI.Models;
 
 namespace PQTiedonlaadun_UI.Controllers
 {
-    [Microsoft.AspNetCore.Authorization.Authorize]
+    //[Microsoft.AspNetCore.Authorization.Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PrimusAlertsController : Controller
